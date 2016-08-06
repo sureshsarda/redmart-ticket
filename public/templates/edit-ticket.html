@@ -1,0 +1,16 @@
+<div>
+	<h2>Create/Edit Ticket</h2>
+
+ 	<form ng-submit="updateTicket()">
+ 		<label>Description</label>
+        <input type="text" placeholder="Description" ng-model="desc"></input>
+        <br>
+        <label>Email</label>
+        <input type="text" placeholder="email" ng-model="email"></input>
+        <br>
+        
+        <label>Type</label>
+        <select ng-model="type" ng-options="x for x in userTypes"></select>
+        <button type="submit">Save</button>
+    </form>
+</div>
