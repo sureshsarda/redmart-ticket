@@ -1,6 +1,24 @@
 <div>
 	<h2>Ticket Management</h2>
-	<a href="#edit-ticket">Create New</a>
+	<a href="#create-ticket">Create New</a>
 
-	
+	<table border=0>
+		<tr>
+			<td>Actions</td>
+			<td>Description</td>
+			<td>Created By</td>
+			<td>Assigned To</td>
+			<td>Status</td>
+		</tr>
+		<tr ng-repeat="ticket in tickets">
+			<td>
+				<a href="">Edit</a> |
+				<a href="">Delete</a>
+			</td>
+			<td>{{ ticket.description}}</td>
+			<td>{{ ticket._createdBy.name }}</td>
+			<td>{{ ticket._assignedTo.name }}</td>
+			<td>{{ ticket.status }}</td>
+		</tr>
+	</table>
 </div>	

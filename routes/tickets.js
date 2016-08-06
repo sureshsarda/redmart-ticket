@@ -22,13 +22,21 @@ router.route('/')
 	})
 	.post(function(req, res, next) {
 		var ticket = new Ticket();
-		ticket._createdBy = req.body.createdBy_id;
+		console.log(req.body);
+		ticket._createdBy = req.body._createdBy;
+		ticket._customer = req.body._customer;
+		ticket._assignedTo = req.body._assignedTo;
 		ticket.description = req.body.description;
 
+		
 		ticket.save(function(err, ticket) {
-			if (err)
+			if (err) {
 				res.send(err)
-			res.json(ticket);
+				console.log('Error: ' + err);
+			}
+			else {
+				res.json(ticket);
+			}
 		})
 	});
 
