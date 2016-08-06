@@ -6,11 +6,6 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Ticket = mongoose.model('Ticket');
 
-
-// var User = require("../models/User");
-// var Ticket = require("../models/Ticket");
-// var Comment = require("./models/Comment");
-
 router.route('/')
 	.get(function(req, res, next) {
 		Ticket.find().populate('_createdBy').exec(function(err, bears) {
@@ -39,5 +34,30 @@ router.route('/')
 			}
 		})
 	});
+
+router.param('ticket_id', function(req, res, next, id) {
+	var query = Ticket.findById(id);
+
+	query.populate('_createdBy')
+		.populate('_assignedTo')
+		.populate('_customer')
+		.exec(function(err, ticket) {
+		if (err) 
+			return next(err);
+		if (!ticket)
+			return next(new Error("Can't find ticket"));
+		req.ticket = ticket;
+		return next();
+	});
+});
+
+
+router.route('/:ticket_id').get(function(req, res, next) {
+	res.json(req.ticket);
+});
+
+router.route('/:ticket_id/comment').post(function(req, res, next) {
+	
+});
 
 module.exports = router;

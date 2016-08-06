@@ -1,0 +1,20 @@
+<div>
+	<h2>Edit Ticket</h2>
+
+ 	<form ng-controller="TicketViewController" ng-submit="updateTicket()" ng-disabled="isDisabled">
+ 		<label>Description</label>
+        <input ng-model="ticket.description" type="text" placeholder="Description" ></input>
+        <br>
+
+        <label>Customer</label>
+        <select ng-model="ticket._customer" ng-options="x.name for x in users"></select>
+        
+        <label>Created By</label>
+        <select ng-model="ticket._createdBy" ng-options="x.name for x in users"></select>
+
+        <label>Assigned To</label>
+        <select ng-model="ticket._assignedTo" ng-options="x.name for x in users"></select>
+        <br>
+        <button type="submit" ng-disabled="isDisabled">Save</button>
+    </form>
+</div>

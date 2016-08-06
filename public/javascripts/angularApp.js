@@ -17,6 +17,11 @@ app.config([
       templateUrl: '/templates/create-ticket.html',
       controller: 'TicketCreateController'
     })
+    .state('view-ticket', {
+      url: '/view-ticket/{id}',
+      templateUrl: '/templates/view-ticket.html',
+      controller: 'TicketViewController'
+    })
     .state('home', {
       url: '/home',
       templateUrl: '/templates/home.html',
@@ -30,8 +35,36 @@ app.config([
 //
 // TICKET RELATED CONTROLLERS
 // 
+
+app.controller('TicketViewController', ['$scope', '$stateParams' ,'$http',
+  function($scope, $stateParams, $http) {
+    
+    $http.get('/api/users')
+    .success(function(data) {
+      $scope.users = data;
+    })
+    .error(function(data) {
+      console.log('Error: ' + data);  
+    });
+
+    $http.get('/api/tickets/' + $stateParams.id)
+    .success(function(data) {
+      $scope.ticket = data;
+      if (data.status === 'Closed') {
+        $scope.isDisabled = true;
+      }
+      else {
+        $scope.isDisabled = false; 
+      }
+    })
+    .error(function(data) {
+      console.log('Error: ' + data); 
+    })
+  }
+]);
+
 app.controller('TicketController', ['$scope', '$http',
-  function($scope, $http, ticketService) {
+  function($scope, $http) {
     $http.get('/api/tickets')
     .success(function(data) {
       $scope.tickets = data; 
@@ -47,7 +80,7 @@ app.controller('TicketController', ['$scope', '$http',
           data: $scope.ticket
         })
         .then(function(res) {
-          
+
         })
     }
   }
