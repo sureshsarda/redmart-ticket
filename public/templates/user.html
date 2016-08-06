@@ -1,3 +1,13 @@
 <div>
-	<h2>User Management</h2>
+<h2>User Management</h2>
+  <div>
+    <form ng-submit="createUser()">
+      <input type="text" placeholder="Name" ng-model="name"></input>
+      <br>
+      <input type="text" placeholder="email" ng-model="email"></input>
+      <br>
+      <select ng-model="type" ng-options="x for x in userTypes"></select>
+      <button type="submit">Save</button>
+    </form>
+  </div>
 </div>
