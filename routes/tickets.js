@@ -16,15 +16,8 @@ router.route('/')
 		})
 	})
 	.post(function(req, res, next) {
-		var ticket = new Ticket();
-		console.log(req.body);
-		ticket._createdBy = req.body._createdBy;
-		ticket._customer = req.body._customer;
-		ticket._assignedTo = req.body._assignedTo;
-		ticket.description = req.body.description;
-
-		
-		ticket.save(function(err, ticket) {
+		var newTicket = new Ticket(req.body);
+		newTicket.save(function(err, ticket) {
 			if (err) {
 				res.send(err)
 				console.log('Error: ' + err);
@@ -41,14 +34,15 @@ router.param('ticket_id', function(req, res, next, id) {
 	query.populate('_createdBy')
 		.populate('_assignedTo')
 		.populate('_customer')
+		.populate('comments')
 		.exec(function(err, ticket) {
-		if (err) 
-			return next(err);
-		if (!ticket)
-			return next(new Error("Can't find ticket"));
-		req.ticket = ticket;
-		return next();
-	});
+			if (err) 
+				return next(err);
+			if (!ticket)
+				return next(new Error("Can't find ticket"));
+			req.ticket = ticket;
+			return next();
+		});
 });
 
 
@@ -57,7 +51,23 @@ router.route('/:ticket_id').get(function(req, res, next) {
 });
 
 router.route('/:ticket_id/comment').post(function(req, res, next) {
+	var ticket = req.ticket;
+	var comment = req.body;
+	console.log("New comment for Ticket Id: " + ticket._id);
+	console.log("Comment: [" + comment.description + "]");
 	
+
+	var query = Ticket.update({_id : ticket._id}, { $push: {comments: comment}});
+	query.exec(function(err, ticket) {
+		if (err) {
+			res.send(err);
+		}
+		else {
+			console.log('Comment added successfully.');
+			res.json(ticket);	
+		}
+		
+	});
 });
 
 module.exports = router;

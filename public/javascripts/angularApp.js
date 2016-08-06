@@ -20,7 +20,6 @@ app.config([
     .state('view-ticket', {
       url: '/view-ticket/{id}',
       templateUrl: '/templates/view-ticket.html',
-      controller: 'TicketViewController'
     })
     .state('home', {
       url: '/home',
@@ -39,6 +38,9 @@ app.config([
 app.controller('TicketViewController', ['$scope', '$stateParams' ,'$http',
   function($scope, $stateParams, $http) {
     
+    $scope.commentList = [];
+    $scope.ticket = '';
+
     $http.get('/api/users')
     .success(function(data) {
       $scope.users = data;
@@ -50,6 +52,8 @@ app.controller('TicketViewController', ['$scope', '$stateParams' ,'$http',
     $http.get('/api/tickets/' + $stateParams.id)
     .success(function(data) {
       $scope.ticket = data;
+      $scope.commentList = data.comments;
+      
       if (data.status === 'Closed') {
         $scope.isDisabled = true;
       }
@@ -57,9 +61,29 @@ app.controller('TicketViewController', ['$scope', '$stateParams' ,'$http',
         $scope.isDisabled = false; 
       }
     })
-    .error(function(data) {
-      console.log('Error: ' + data); 
-    })
+
+    $scope.addComment = function() {
+      var ticket = $scope.ticket;
+      var newComment = $scope.newComment;
+
+      // return if comment already present
+      if ($scope.commentList.indexOf(newComment) > 0) {
+        return;  
+      }
+      
+      var apiEndPoint = '/api/tickets/' + ticket._id + '/comment/';
+
+      $http({
+        method: 'POST',
+        url: apiEndPoint,
+        data: newComment
+      })
+      .then(function(res) {
+        $scope.commentList.push(newComment); 
+        console.log($scope.commentList);      
+        $scope.newComment.description = "";  
+      })
+    }
   }
 ]);
 
@@ -86,29 +110,27 @@ app.controller('TicketController', ['$scope', '$http',
   }
 ]);
 
-app.controller('TicketCreateController', [
-      '$scope',
-      '$http',
-      function($scope, $http) {
-        $http.get('/api/users')
-        .success(function(data) {
-          $scope.users = data;
-        })
-        .error(function(data) {
-          console.log('Error: ' + data);  
-        });
+app.controller('TicketCreateController', ['$scope', '$http', '$location',
+  function($scope, $http, $location) {
+    $http.get('/api/users')
+    .success(function(data) {
+      $scope.users = data;
+    })
+    .error(function(data) {
+      console.log('Error: ' + data);
+    });
 
-        $scope.createTicket = function() {
-          $http({
-            method: 'POST',
-            url: '/api/tickets',
-            data: $scope.ticket
-          })
-          .then(function(response) {
-            $scope.ticket.description = "";
-          });
-        }
-    }]);
+    $scope.createTicket = function() {
+      $http({
+        method: 'POST',
+        url: '/api/tickets',
+        data: $scope.ticket
+      })
+      .then(function(response) {
+        $location.path('home');
+      });
+    }
+}]);
 
 app.controller('UserController', [
       '$scope',

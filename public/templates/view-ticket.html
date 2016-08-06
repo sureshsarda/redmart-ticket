@@ -1,7 +1,7 @@
-<div>
+<div ng-controller="TicketViewController">
 	<h2>Edit Ticket</h2>
 
- 	<form ng-controller="TicketViewController" ng-submit="updateTicket()" ng-disabled="isDisabled">
+ 	<form ng-submit="updateTicket()" ng-disabled="isDisabled">
  		<label>Description</label>
         <input ng-model="ticket.description" type="text" placeholder="Description" ></input>
         <br>
@@ -17,4 +17,14 @@
         <br>
         <button type="submit" ng-disabled="isDisabled">Save</button>
     </form>
+
+    <label>Comments:</label>
+    <div ng-repeat="comment in commentList">
+        <span ng-bind="comment.description"></span>
+    </div>
+    <form ng-submit="addComment()">        
+    	<label>Add new comment:</label>
+    	<input type="text" name="Comment" ng-model="newComment.description"></input>
+    	<button type="submit">Add</button>
+    </form>      
 </div>
