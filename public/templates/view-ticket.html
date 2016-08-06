@@ -1,30 +1,42 @@
 <div ng-controller="TicketViewController">
 	<h2>Edit Ticket</h2>
 
- 	<form ng-submit="updateTicket()" ng-disabled="isDisabled">
- 		<label>Description</label>
-        <input ng-model="ticket.description" type="text" placeholder="Description" ></input>
-        <br>
+ 	<form ng-submit="updateTicket()" ng-disabled="isDisabled" role="form">
+ 		        <div class="form-group">
+            <label>Description</label>
+            <textarea ng-model="ticket.description" type="text" placeholder="Description" class="form-control"></textarea>
+        </div>
 
-        <label>Customer</label>
-        <select ng-model="ticket._customer" ng-options="x.name for x in users"></select>
+        <div class="form-group">
+            <label>Customer</label>
+            <select ng-model="ticket._customer" ng-options="x.name for x in users" placeholder="Select customer" class="form-control"></select>
+        </div>
         
-        <label>Created By</label>
-        <select ng-model="ticket._createdBy" ng-options="x.name for x in users"></select>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label>Created By</label>
+                <select ng-model="ticket._createdBy" ng-options="x.name for x in users" placeholder="Select" class="form-control"></select>
+            </div>
 
-        <label>Assigned To</label>
-        <select ng-model="ticket._assignedTo" ng-options="x.name for x in users"></select>
-        <br>
-        <button type="submit" ng-disabled="isDisabled">Save</button>
+            <div class="form-group col-md-4">
+                <label>Assigned To</label>
+                <select ng-model="ticket._assignedTo" ng-options="x.name for x in users" placeholder="Select" class="form-control"></select>
+            </div>
+        </div>
+        <button type="submit" class="btn-primary btn-sm">Update</button>
     </form>
 
-    <label>Comments:</label>
-    <div ng-repeat="comment in commentList">
-        <span ng-bind="comment.description"></span>
+    <div class="list-group-item active" data-toggle="collapse" data-target="#comments">Comments</div>
+    <div id="comments" class="list-group">
+        <div class="list-group-item active">
+            <form ng-submit="addComment()">        
+                <input type="text" name="Comment" ng-model="newComment.description" placeholder="write comment" class="form-control"></input>
+                <br/>
+                <button type="submit" class="btn btn-default btn-sm">Add</button>
+            </form>      
+        </div>
+        <div ng-repeat="comment in commentList" class="list-group-item">
+            <span ng-bind="comment.description"></span>
+        </div>
     </div>
-    <form ng-submit="addComment()">        
-    	<label>Add new comment:</label>
-    	<input type="text" name="Comment" ng-model="newComment.description"></input>
-    	<button type="submit">Add</button>
-    </form>      
 </div>

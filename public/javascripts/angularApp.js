@@ -35,8 +35,8 @@ app.config([
 // TICKET RELATED CONTROLLERS
 // 
 
-app.controller('TicketViewController', ['$scope', '$stateParams' ,'$http',
-  function($scope, $stateParams, $http) {
+app.controller('TicketViewController', ['$scope', '$stateParams' ,'$http', '$location',
+  function($scope, $stateParams, $http, $location) {
     
     $scope.commentList = [];
     $scope.ticket = '';
@@ -83,6 +83,10 @@ app.controller('TicketViewController', ['$scope', '$stateParams' ,'$http',
         console.log($scope.commentList);      
         $scope.newComment.description = "";  
       })
+    }
+
+    $scope.updateTicket = function() {
+      $location.path('home');   
     }
   }
 ]);
