@@ -7,7 +7,7 @@ var UserSchema = new Schema({
 	email: {type: String, required: true, unique: true},
 	type: {
 		type: String,
-		enum: ['Customer', 'Admin'],
+		enum: ['Customer', 'CSR'],
 		default: 'Customer'
 	},
 });

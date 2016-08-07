@@ -1,14 +1,37 @@
+var util = require('util');
 var express = require('express');
 var router = express.Router();
 
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
+/*
+ * ROUTE END POINTS:
+ *	GET 	user/				Get all users
+ * 	POST 	user/ 				Create a new user 	 	
+ *
+ *	GET 	user/customer		Get all customers
+ *	GET 	user/csr 			Get all CSRs
+ *
+ *	DELETE 	user/{id} 			Delete user by id
+ *	GET 	user/{id}			Get user by id
+ */
 
-// var User = require("../models/User");
+router.param('user_id', function(req, res, next, id) {
+	var query = User.findById(id);
 
-/* GET users listing. */
+	query.exec(function(err, user) {
+			if (err) 
+				return next(err);
+			if (!user)
+				return next(new Error("Can't find ticket"));
+			req.user = user;
+			return next();
+		});
+	});
+
 router.route('/')
+	// GET all users
 	.get(function(req, res, next) {
 		User.find(function(err, bears) {
 			if (err) {
@@ -17,10 +40,19 @@ router.route('/')
 			res.json(bears);
 		})
 	})
+
+	// CREATE a new user
 	.post(function(req, res, next) {
-		var user = new User();
-		user.name = req.body.name;
-		user.email = req.body.email;
+
+		req.checkBody('name', 'param `name` is required').notEmpty();
+		req.checkBody('email', 'param `email` is requred').notEmpty();
+
+		var error = req.validationErrors();
+		if (error) {
+			res.send('Invalid Input: ' + util.inspect(error), 400);
+			return;
+		}
+		var user = new User(req.body);
 
 		user.save(function(err, user) {
 			if (err)
@@ -29,14 +61,34 @@ router.route('/')
 		})
 	});
 
+// GET all customers
+router.route('/customers')
+	.get(function(req, res) {
+		var query = User.find({'type': {$eq : 'Customer'}});
+		query.exec(function(err, users) {
+			if (err)
+				res.send(err)
+			res.json(users);
+		})
+	});
+
+// GET all customer service representives
+router.route('/csr')
+	.get(function(req, res) {
+		var query = User.find({'type': {$eq : 'CSR'}});
+		query.exec(function(err, users) {
+			if (err)
+				res.send(err)
+			res.json(users);
+		})
+	});
+
+
 router.route('/:user_id')
 	
+	// GET user details by ID
 	.get(function(req, res, next) {
-		User.findById(req.params.user_id, function(err, user) {
-			if (err)
-				res.send(err);
-			res.json(user);
-		});
+		res.json(req.user);
 	}) 
 
 	.put(function(req, res, next) {
@@ -45,12 +97,6 @@ router.route('/:user_id')
 
 	.delete(function(req, res, next) {
 		res.send("This feature has not been implemented yet");
-	});
-
-router.route('/deleteAllUsers/yes')
-	.delete(function(req, res, next) {
-		Users.remove({});
-	});
-	
+	});	
 
 module.exports = router;

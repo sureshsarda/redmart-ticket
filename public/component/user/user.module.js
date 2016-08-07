@@ -1,4 +1,4 @@
-var userModule = angular.module('ticketsapp.user', []);
+var userModule = angular.module('ticketsapp.user', ['ngResource']);
 
 userModule.config([
   '$stateProvider',
@@ -14,14 +14,27 @@ userModule.config([
 
 
 userModule.controller('UserController', [
-      '$scope',
-      function($scope){
-        $scope.userTypes = ['Customer', 'Admin'];
+  '$scope', '$resource',
+  function($scope, $resource) {
+    $scope.userTypes = ['Customer', 'CSR'];
 
-        $scope.createUser = function() {
-          console.log("Create New User");
-          console.log($scope.name);
-          console.log($scope.email);
-          console.log($scope.type);
-      };
-    }]);
+    var csrList = $resource('/api/users/csr', {isArray: true});
+    csrList.query(function(data) {
+      $scope.csrList = data;
+    });
+
+    var customerList = $resource('/api/users/customers', {isArray: true});
+    customerList.query(function(data) {
+      $scope.customerList = data;
+    });
+
+    // create user
+    $scope.createUser = function() {
+      console.log("Create New User");
+      console.log($scope.name);
+      console.log($scope.email);
+      console.log($scope.type);
+    };
+
+  }
+]);
