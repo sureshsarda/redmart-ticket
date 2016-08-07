@@ -31,7 +31,7 @@ router.param('ticket_id', function(req, res, next, id) {
 router.route('/')
 	.get(function(req, res, next) {
 		Ticket.find()
-			.populate(['_createdBy', '_assignedTo', '_customer'])
+			.populate(['_createdBy', '_assignedTo', '_customer', 'comments'])
 			.exec(function(err, bears) {
 				if (err) {
 					res.send(err);

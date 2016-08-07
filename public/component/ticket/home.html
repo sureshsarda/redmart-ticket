@@ -7,23 +7,31 @@
 			<th>Description</th>
 			<th>Customer</th>
 			<th>Assigned To</th>
-			<th>Status</th>
+			<th>Area</th>
 		</tr>
 		</thead>
 		<tbody>
 		<tr ng-repeat="ticket in tickets | orderBy: -'dateCreated'">
 			<td>
-				<a href="#/view-ticket/{{ticket._id}}">
+				<a href="#/view-ticket/{{ticket._id}}" title="Edit">
 					<span class="glyphicon glyphicon-pencil"></span>
 				</a>
-				<a href="#" ng-click="deleteTicket(ticket._id)">
+				<a href="#" ng-click="deleteTicket(ticket._id)" title="Delete">
 					<span class="glyphicon glyphicon-trash"></span>
 				</a>
 			</td>
-			<td><span ng-bind="ticket.description"></span></td>
+			
+			<td>
+				<span class="badge" title="{{ticket.comments.length}} comments">{{ticket.comments.length}}</span>
+				<span ng-bind="ticket.description | limitTo: 35"></span>
+				<span ng-bind="ticket.description.length > 35 ? '...' : ''"></span>
+				<span class="label label-warning" ng-if="ticket.status == 'New'">New</span>
+				<span class="label label-primary" ng-if="ticket.status == 'Open'">Open</span>
+				<span class="label label-success" ng-if="ticket.status == 'Closed'">Closed</span>
+			</td>		
 			<td><span ng-bind="ticket._customer.name"></span></td>
 			<td><span ng-bind="ticket._assignedTo.name"></span></td>
-			<td><span ng-bind="ticket.status"></span></td>
+			<td><span ng-bind="ticket.area"></span></td>
 		</tr>
 		</tbody>
 	</table>

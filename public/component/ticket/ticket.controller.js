@@ -1,5 +1,9 @@
 var ticketController = angular.module('ticketsapp.ticket.controller', []);
 
+// This module needs refactoring
+// seperate the controllers
+// create a service for user list and type of area and status
+
 
 ticketController.controller('TicketViewController', ['$scope', '$stateParams' ,'$resource', '$location', '$http',
   function($scope, $stateParams, $resource, $location, $http) {
@@ -20,6 +24,7 @@ ticketController.controller('TicketViewController', ['$scope', '$stateParams' ,'
       $scope.customerList = data;
     });
 
+    // get the status type and area
     $http.get('/api/tickets/options/status').then(function(response) {$scope.statusList = response.data;})
     $http.get('/api/tickets/options/area').then(function(response) {$scope.areaList = response.data;})
 
@@ -70,11 +75,13 @@ ticketController.controller('TicketViewController', ['$scope', '$stateParams' ,'
 ticketController.controller('TicketController', ['$scope', '$resource', '$http',
   function($scope, $resource, $http) {
 
+    // populate the list of all tickets
   	var alltickets = $resource('/api/tickets');
   	alltickets.query(function(data) {
   		$scope.tickets = data;
   	});
 
+    // delete the ticket
     $scope.deleteTicket = function(id) {
         var endpoint = '/api/tickets/' + id;
         // $resource.delete(endpoint);
@@ -94,6 +101,8 @@ ticketController
 .controller('TicketCreateController', ['$scope', '$http', '$location', '$resource', 
   function($scope, $http, $location, $resource) {
 
+    // populate fields
+    // needs refactoring
     $http.get('/api/users/csr').then(function(response) {$scope.csrList = response.data;})
     $http.get('/api/users/customers').then(function(response) {$scope.customerList = response.data;})
     $http.get('/api/tickets/options/status').then(function(response) {$scope.statusList = response.data;})
