@@ -39,7 +39,6 @@ app.controller('TicketViewController', ['$scope', '$stateParams' ,'$http', '$loc
   function($scope, $stateParams, $http, $location) {
     
     $scope.commentList = [];
-    $scope.ticket = '';
 
     $http.get('/api/users')
     .success(function(data) {
@@ -86,7 +85,15 @@ app.controller('TicketViewController', ['$scope', '$stateParams' ,'$http', '$loc
     }
 
     $scope.updateTicket = function() {
-      $location.path('home');   
+      var ticket = $scope.ticket;
+      $http({
+        method: 'PUT',
+        url: '/api/tickets/' + ticket._id,
+        data: ticket
+      })
+      .then(function(response) {
+        $location.path('home');
+      });   
     }
   }
 ]);

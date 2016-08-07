@@ -9,13 +9,13 @@
 
         <div class="form-group">
             <label>Customer</label>
-            <select ng-model="ticket._customer" ng-options="x.name for x in users" placeholder="Select customer" class="form-control"></select>
+            <select ng-model="ticket._customer.name" ng-options="x.name for x in users" placeholder="Select customer" class="form-control"></select>
         </div>
         
         <div class="row">
             <div class="form-group col-md-4">
                 <label>Created By</label>
-                <select ng-model="ticket._createdBy" ng-options="x.name for x in users" placeholder="Select" class="form-control"></select>
+                <select ng-model="ticket._createdBy.name" ng-options="x.name for x in users" placeholder="Select" class="form-control"></select>
             </div>
 
             <div class="form-group col-md-4">
