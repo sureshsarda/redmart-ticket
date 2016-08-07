@@ -30,10 +30,8 @@ userModule.controller('UserController', [
 
     // create user
     $scope.createUser = function() {
-      console.log("Create New User");
-      console.log($scope.name);
-      console.log($scope.email);
-      console.log($scope.type);
+      var user = $resource('/api/users/');
+      user.save($scope.user);
     };
 
   }

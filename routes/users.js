@@ -49,7 +49,7 @@ router.route('/')
 
 		var error = req.validationErrors();
 		if (error) {
-			res.send('Invalid Input: ' + util.inspect(error), 400);
+			res.status(400).send('Invalid Input: ' + util.inspect(error));
 			return;
 		}
 		var user = new User(req.body);

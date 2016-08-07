@@ -24,8 +24,8 @@ ticketModule.config([
 }]);
 
 
-ticketModule.controller('TicketViewController', ['$scope', '$stateParams' ,'$http', '$location',
-  function($scope, $stateParams, $http, $location) {
+ticketModule.controller('TicketViewController', ['$scope', '$stateParams' ,'$resource', '$location',
+  function($scope, $stateParams, $resource, $location) {
     
     $scope.commentList = [];
 

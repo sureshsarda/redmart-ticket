@@ -14,15 +14,15 @@
         <div>
           <div class="col-md-3">
             <label>Name</label>
-            <input type="text" placeholder="Name" ng-model="name" class="form-control"></input>
+            <input type="text" placeholder="Name" ng-model="user.name" class="form-control"></input>
           </div>
           <div class="col-md-3">
             <label>Email</label>
-            <input type="text" placeholder="Email" ng-model="email" class="form-control"></input>
+            <input type="text" placeholder="Email" ng-model="user.email" class="form-control"></input>
           </div>
           <div class="col-md-3">
             <label>Type</label>
-            <select ng-model="type" ng-options="x for x in userTypes" class="form-control"></select>
+            <select ng-model="user.type" ng-options="x for x in userTypes" class="form-control"></select>
           </div>
           <div class="col-md-3">
             <button type="submit" class="btn btn-primary">Save</button>
