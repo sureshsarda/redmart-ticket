@@ -10,9 +10,6 @@ router.param('ticket_id', function(req, res, next, id) {
 	var query = Ticket.findById(id);
 
 	query.populate(['_createdBy', '_assignedTo', '_customer'])
-		// .populate('_assignedTo')
-		// .populate('_customer')
-		// .populate('comments')
 		.exec(function(err, ticket) {
 			if (err) 
 				return next(err);

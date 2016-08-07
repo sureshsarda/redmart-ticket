@@ -5,7 +5,7 @@
 		<tr>
 			<th></th>
 			<th>Description</th>
-			<th>Created By</th>
+			<th>Customer</th>
 			<th>Assigned To</th>
 			<th>Status</th>
 		</tr>
@@ -16,7 +16,7 @@
 				<a href="#/view-ticket/{{ticket._id}}">
 					<span class="glyphicon glyphicon-pencil"></span>
 				</a>
-				<a href="" ng-click="deleteTicket()">
+				<a href="#/tickets/delete/{{ticket._id}}" ng-click="deleteTicket()">
 					<span class="glyphicon glyphicon-trash"></span>
 				</a>
 			</td>

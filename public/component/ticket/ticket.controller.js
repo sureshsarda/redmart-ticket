@@ -25,9 +25,11 @@ ticketController.controller('TicketViewController', ['$scope', '$stateParams' ,'
 
     $scope.addComment = function() {
       var ticket = $scope.ticket;
+      var newComment = $scope.newComment;
      
       var comment = $resource('/api/tickets/:ticket_id/comment', {ticket_id: ticket._id});
-      comment.save($scope.newComment);
+      comment.save(newComment);
+      $scope.commentList.push(newComment);
   	}
 
 

@@ -1,7 +1,9 @@
 <div ng-controller="TicketViewController">
 	<h2>Edit Ticket</h2>
-    {{ disabled }}
  	<form ng-submit="updateTicket()" role="form">
+        <div class="row col-md-12" ng-show="disabled">
+            <strong>This ticket has been closed. You can not edit it. You can add comments.</strong>
+        </div>
         <div class="row">
             <div class="form-group col-md-4">
                 <label>Status</label>
@@ -18,14 +20,14 @@
         <div class="form-group">
             <label>Customer</label>
             <select class="form-control" ng-disabled="disabled"
-            ng-model="ticket._customer.name" ng-options="x.name for x in customerList track by x.name"></select>
+            ng-model="ticket._customer" ng-options="x.name for x in customerList track by x.name"></select>
         </div>
         
         <div class="row">
             <div class="form-group col-md-4">
                 <label>Created By</label>
-                <select class="form-control" ng-disabled="disabled"
-                ng-model="ticket._createdBy.name" ng-options="x.name for x in csrList track by x.name"></select>
+                <select class="form-control" ng-disabled="true"
+                ng-model="ticket._createdBy" ng-options="x.name for x in csrList track by x.name"></select>
             </div>
 
             <div class="form-group col-md-4">
@@ -40,14 +42,20 @@
     <div class="list-group-item active" data-toggle="collapse" data-target="#comments">Comments</div>
     <div id="comments" class="list-group">
         <div class="list-group-item active">
-            <form ng-submit="addComment()">        
-                <input type="text" name="Comment" ng-model="newComment.description" placeholder="write comment" class="form-control"></input>
-                <br/>
-                <button type="submit" class="btn btn-default btn-sm">Add</button>
+            <form ng-submit="addComment()">
+                <div class="row">
+                <div class="col-md-11">       
+                    <input type="text" name="Comment" ng-model="newComment.description" placeholder="write comment" class="form-control"></input>
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-default btn-sm">Add</button>
+                </div>
+                </div>
             </form>      
         </div>
         <div ng-repeat="comment in commentList" class="list-group-item">
-            <span ng-bind="comment.description"></span>
+            <span ng-bind="comment.description"></span><br/>
+            <span class="text-muted" ng-bind="comment.dateCreated | date: 'fullDate'"></span>
         </div>
     </div>
 </div>
