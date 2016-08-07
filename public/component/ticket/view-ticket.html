@@ -8,7 +8,12 @@
             <div class="form-group col-md-4">
                 <label>Status</label>
                 <select class="form-control" ng-disabled="disabled"
-                    ng-model="ticket.status" ng-options="x for x in statusList"></select>
+                    ng-model="ticket.status" ng-options="x for x in statusList track by x"></select>
+            </div>
+            <div class="form-group col-md-4">
+                <label>Area</label>
+                <select class="form-control" ng-disabled="disabled"
+                    ng-model="ticket.area" ng-options="x for x in areaList track by x"></select>
             </div>
         </div>
         <div class="form-group">
@@ -53,7 +58,7 @@
                 </div>
             </form>      
         </div>
-        <div ng-repeat="comment in commentList" class="list-group-item">
+        <div ng-repeat="comment in commentList track by $index" class="list-group-item">
             <span ng-bind="comment.description"></span><br/>
             <span class="text-muted" ng-bind="comment.dateCreated | date: 'fullDate'"></span>
         </div>

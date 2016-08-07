@@ -29,10 +29,26 @@ userModule.controller('UserController', [
     });
 
     // create user
+    // show error when a repeat user is added
     $scope.createUser = function() {
+      var userObject = JSON.parse(JSON.stringify($scope.user));
       var user = $resource('/api/users/');
-      user.save($scope.user);
+      user.save(userObject);
+
+      clear();
+        
+      if ($scope.user.type == 'CSR') {
+        $scope.csrList.push(userObject);
+      }
+      else {
+        $scope.customerList.push(userObject); 
+      }
     };
+
+    clear = function() {
+      $scope.user.name = "";
+      $scope.user.email = "";
+    }
 
   }
 ]);

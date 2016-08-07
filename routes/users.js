@@ -15,7 +15,13 @@ var User = mongoose.model('User');
  *
  *	DELETE 	user/{id} 			Delete user by id
  *	GET 	user/{id}			Get user by id
+ * 
+ * 	GET 	/options/type		Get user types
  */
+
+router.route('/options/type').get(function(req, res, next) {
+	res.json(Ticket.schema.path('type').enumValues)
+});
 
 router.param('user_id', function(req, res, next, id) {
 	var query = User.findById(id);

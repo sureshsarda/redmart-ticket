@@ -5,6 +5,14 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Ticket = mongoose.model('Ticket');
 
+router.route('/options/area').get(function(req, res, next) {
+	res.json(Ticket.schema.path('area').enumValues)
+});
+
+router.route('/options/status').get(function(req, res, next) {
+	res.send(Ticket.schema.path('status').enumValues)
+});
+
 router.param('ticket_id', function(req, res, next, id) {
 	var query = Ticket.findById(id);
 
@@ -59,6 +67,20 @@ router.route('/:ticket_id')
 			}
 		});
 	})
+	.delete(function(req, res, next) {
+		var ticket = req.ticket;
+		var query = Ticket.remove({_id : ticket._id});
+		query.exec(function(err, ticket) {
+			if (err) {
+				res.send(err);
+			}
+			else {
+				res.json(ticket);	
+				console.log(ticket);
+			}
+		});
+		
+	})
 	.get(function(req, res, next) {
 		res.json(req.ticket);
 	});
@@ -67,9 +89,7 @@ router.route('/:ticket_id/comment')
 	.post(function(req, res, next) {
 		var ticket = req.ticket;
 		var comment = req.body;
-		console.log("New comment for Ticket Id: " + ticket._id);
-		console.log("Comment: [" + comment.description + "]");
-		
+		comment.dateCreated = Date.now();
 
 		var query = Ticket.update({_id : ticket._id}, { $push: {comments: comment}});
 		query.exec(function(err, ticket) {
@@ -77,11 +97,12 @@ router.route('/:ticket_id/comment')
 				res.send(err);
 			}
 			else {
-				console.log('Comment added successfully.');
 				res.json(ticket);	
 			}
 			
 		});
 	});
+
+
 
 module.exports = router;

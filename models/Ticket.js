@@ -8,7 +8,6 @@ var TicketSchema = new Schema({
 	_assignedTo: {type: Schema.Types.ObjectId, ref: 'User'},
 	description: {type: String, required: true},
 	dateCreated: {type: Date, default: Date.now},
-	lastModified: {type: Date, default: Date.now},
 	comments: [{
 		author: {type: Schema.Types.ObjectId, ref: 'User'},
 		description: String,
@@ -18,6 +17,12 @@ var TicketSchema = new Schema({
 		type: String,
 		enum: ['New', 'Open', 'Closed'],
 		default: 'New'
+	},
+
+	area: {
+		type: String,
+		enum: ['Technical', 'Payment Related', 'Delivery Issue', 'Misc'],
+		default: 'Misc'
 	}
 });
 

@@ -8,6 +8,11 @@
                 <input type="text" name="Status" disabled="disabled" 
                 value="New" class="form-control"></input>
             </div>
+            <div class="form-group col-md-4">
+                <label>Area</label>
+                <select class="form-control" ng-disabled="disabled"
+                    ng-model="ticket.area" ng-options="x for x in areaList track by x"></select>
+            </div>
         </div>
         <div class="form-group">
      		<label>Description</label>
