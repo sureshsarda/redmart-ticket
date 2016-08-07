@@ -45,6 +45,7 @@ userModule.controller('UserController', [
       }
     };
 
+    // clears the fields
     clear = function() {
       $scope.user.name = "";
       $scope.user.email = "";
