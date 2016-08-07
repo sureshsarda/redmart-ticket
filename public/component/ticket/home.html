@@ -20,7 +20,10 @@
 					<span class="glyphicon glyphicon-trash"></span>
 				</a>
 			</td>
-			<td><span ng-bind="ticket.description"></span></td>
+			
+			<td>
+				<span ng-bind="ticket.description"></span>
+				<span class="badge">{{ticket.comments.length}} comments</span></td>		
 			<td><span ng-bind="ticket._customer.name"></span></td>
 			<td><span ng-bind="ticket._assignedTo.name"></span></td>
 			<td><span ng-bind="ticket.status"></span></td>
