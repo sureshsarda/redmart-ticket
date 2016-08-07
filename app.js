@@ -11,8 +11,8 @@ var app = express();
 
 // DATABASE RELATED
 var mongoose   = require('mongoose');
-mongoose.connect('mongodb://localhost/tickets');
-// mongoose.connect('mongodb://rma:rma@ds145245.mlab.com:45245/redmart');
+// mongoose.connect('mongodb://localhost/tickets');
+mongoose.connect('mongodb://rma:rma@ds145245.mlab.com:45245/redmart');
 
 
 // Registering Schemas
