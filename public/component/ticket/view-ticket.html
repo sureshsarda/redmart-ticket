@@ -1,29 +1,40 @@
 <div ng-controller="TicketViewController">
 	<h2>Edit Ticket</h2>
-
- 	<form ng-submit="updateTicket()" ng-disabled="isDisabled" role="form">
- 		        <div class="form-group">
+    {{ disabled }}
+ 	<form ng-submit="updateTicket()" role="form">
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label>Status</label>
+                <select class="form-control" ng-disabled="disabled"
+                    ng-model="ticket.status" ng-options="x for x in statusList"></select>
+            </div>
+        </div>
+        <div class="form-group">
             <label>Description</label>
-            <textarea ng-model="ticket.description" type="text" placeholder="Description" class="form-control"></textarea>
+            <textarea class="form-control" ng-disabled="disabled"
+            ng-model="ticket.description" type="text" placeholder="Description" ></textarea>
         </div>
 
         <div class="form-group">
             <label>Customer</label>
-            <select ng-model="ticket._customer.name" ng-options="x.name for x in users" placeholder="Select customer" class="form-control"></select>
+            <select class="form-control" ng-disabled="disabled"
+            ng-model="ticket._customer.name" ng-options="x.name for x in customerList track by x.name"></select>
         </div>
         
         <div class="row">
             <div class="form-group col-md-4">
                 <label>Created By</label>
-                <select ng-model="ticket._createdBy.name" ng-options="x.name for x in users" placeholder="Select" class="form-control"></select>
+                <select class="form-control" ng-disabled="disabled"
+                ng-model="ticket._createdBy.name" ng-options="x.name for x in csrList track by x.name"></select>
             </div>
 
             <div class="form-group col-md-4">
                 <label>Assigned To</label>
-                <select ng-model="ticket._assignedTo" ng-options="x.name for x in users" placeholder="Select" class="form-control"></select>
+                <select class="form-control" ng-disabled="disabled"
+                ng-model="ticket._assignedTo" ng-options="x.name for x in csrList track by x.name"></select>
             </div>
         </div>
-        <button type="submit" class="btn-primary btn-sm">Update</button>
+        <button type="submit" class="btn-primary btn-sm" ng-disabled="{{ disabled }}">Update</button>
     </form>
 
     <div class="list-group-item active" data-toggle="collapse" data-target="#comments">Comments</div>

@@ -9,10 +9,10 @@ var Ticket = mongoose.model('Ticket');
 router.param('ticket_id', function(req, res, next, id) {
 	var query = Ticket.findById(id);
 
-	query.populate('_createdBy')
-		.populate('_assignedTo')
-		.populate('_customer')
-		.populate('comments')
+	query.populate(['_createdBy', '_assignedTo', '_customer'])
+		// .populate('_assignedTo')
+		// .populate('_customer')
+		// .populate('comments')
 		.exec(function(err, ticket) {
 			if (err) 
 				return next(err);
@@ -26,12 +26,14 @@ router.param('ticket_id', function(req, res, next, id) {
 
 router.route('/')
 	.get(function(req, res, next) {
-		Ticket.find().populate('_createdBy').exec(function(err, bears) {
-			if (err) {
-				res.send(err);
-			}
-			res.json(bears);
-		})
+		Ticket.find()
+			.populate(['_createdBy', '_assignedTo', '_customer'])
+			.exec(function(err, bears) {
+				if (err) {
+					res.send(err);
+				}
+				res.json(bears);
+			})
 	})
 	.post(function(req, res, next) {
 		var newTicket = new Ticket(req.body);
@@ -48,8 +50,8 @@ router.route('/')
 
 router.route('/:ticket_id')
 	.put(function(req, res, next) {
-		var ticket = req.ticket;
-		var updatedData = req.body;
+		var ticket = req.ticket.toObject();
+		var updatedData = new Ticket(req.body);
 
 		var query = Ticket.update({_id : ticket._id}, updatedData );
 		query.exec(function(err, ticket) {

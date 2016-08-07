@@ -1,7 +1,8 @@
 var app = angular.module('ticketsapp', [
             'ui.router', 
             'ticketsapp.user',
-            'ticketsapp.ticket'
+            'ticketsapp.ticket',
+            'ticketsapp.ticket.controller'
             ]);
 
 

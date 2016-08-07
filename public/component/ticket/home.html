@@ -16,14 +16,14 @@
 				<a href="#/view-ticket/{{ticket._id}}">
 					<span class="glyphicon glyphicon-pencil"></span>
 				</a>
-				<a href="">
+				<a href="" ng-click="deleteTicket()">
 					<span class="glyphicon glyphicon-trash"></span>
 				</a>
 			</td>
-			<td>{{ ticket.description}}</td>
-			<td>{{ ticket._createdBy.name }}</td>
-			<td>{{ ticket._assignedTo.name }}</td>
-			<td>{{ ticket.status }}</td>
+			<td><span ng-bind="ticket.description"></span></td>
+			<td><span ng-bind="ticket._customer.name"></span></td>
+			<td><span ng-bind="ticket._assignedTo.name"></span></td>
+			<td><span ng-bind="ticket.status"></span></td>
 		</tr>
 		</tbody>
 	</table>
