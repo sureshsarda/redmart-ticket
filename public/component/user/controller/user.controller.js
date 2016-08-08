@@ -1,6 +1,7 @@
 var userController = angular.module('ticketsapp.user.controller', []);
 
-
+// user controller manages all operations on user
+// create, delete
 userController
   .controller('UserController', [
     '$scope', 
@@ -10,6 +11,7 @@ userController
     'userCrudService',
     function($scope, $http, $resource, usersService, userCrudService) {
 
+      // populate predefined fields
       usersService.userType.then(function(response) {
         $scope.userType = response.data;
       });
@@ -45,6 +47,7 @@ userController
         
       };
 
+      // delete a user
       $scope.delete = function(id, index, type) {
           userCrudService.delete(id)
           .then(function(res) {

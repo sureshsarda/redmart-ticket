@@ -1,6 +1,8 @@
 var ticketController = angular.module('ticketsapp.ticket.controller', []);
 
-
+// this controller manages the home view
+// list the tickets on load
+// it has function to delete the tickets
 ticketController
   .controller('TicketListController', [
     '$scope', 

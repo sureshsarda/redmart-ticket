@@ -1,5 +1,7 @@
 var ticketController = angular.module('ticketsapp.ticket.controller');
 
+// controller to manage edit of tickets
+// ticket information and comments can be modified
 ticketController
   .controller('TicketViewController', [
     '$scope', 
@@ -12,6 +14,7 @@ ticketController
     'ticketCrudService',
     function($scope, $stateParams, $resource, $location, $http, usersService, ticketMetadataService, ticketCrudService) {
 
+      // populate predefined fields
       usersService.csrList.then(function(res) {
         $scope.csrList = res.data;  
       });
@@ -28,7 +31,7 @@ ticketController
         $scope.statusList = res.data;
       });
 
-      // Load the current ticket by its id
+      // load the ticket by id
       ticketCrudService.get($stateParams.id)
       .then(function(response) {
         $scope.ticket = response.data;
