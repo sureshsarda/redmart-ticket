@@ -1,4 +1,4 @@
-var ticketMetaDataModule = angular.module('ticketsapp.tickets.service', ['ngResource']);
+var ticketMetaDataModule = angular.module('ticketsapp.ticket.service', ['ngResource']);
 
 ticketMetaDataModule.factory('ticketMetadataService', ['$http', function($http) {
 	
