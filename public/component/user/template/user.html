@@ -3,7 +3,6 @@
     <h2>User Management</h2>
   </div>
 </div>
-
 <div class="panel panel-primary">
   <div class="panel-heading">
     <h3 class="panel-title">Add User</h3>
@@ -24,7 +23,7 @@
           </div>
           <div class="col-md-3">
             <label>Type</label>
-            <select ng-model="user.type" ng-options="x for x in userTypes track by x" class="form-control" required="required"></select>
+            <select ng-model="user.type" ng-options="x for x in userType track by x" class="form-control" required="required"></select>
           </div>
           <div class="col-md-3">
             <button type="submit" class="btn btn-primary">Save</button>
