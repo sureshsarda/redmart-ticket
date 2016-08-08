@@ -98,11 +98,13 @@ ticketController.controller('TicketController', ['$scope', '$resource', '$http',
 ]);
 
 ticketController
-.controller('TicketCreateController', ['$scope', '$http', '$location', '$resource', 
-  function($scope, $http, $location, $resource) {
+.controller('TicketCreateController', ['$scope', '$http', '$location', '$resource', 'usersProvider',
+  function($scope, $http, $location, $resource, usersProvider) {
 
+    $scope.x = usersProvider.userMetaData;
     // populate fields
     // needs refactoring
+    // badly neeed to remove these calls from here!
     $http.get('/api/users/csr').then(function(response) {$scope.csrList = response.data;})
     $http.get('/api/users/customers').then(function(response) {$scope.customerList = response.data;})
     $http.get('/api/tickets/options/status').then(function(response) {$scope.statusList = response.data;})
