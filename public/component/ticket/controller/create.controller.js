@@ -1,5 +1,6 @@
 var ticketController = angular.module('ticketsapp.ticket.controller');
 
+// controller to manage ticket creation
 ticketController
   .controller('TicketCreateController', [
     '$scope', 
@@ -8,8 +9,10 @@ ticketController
     '$resource', 
     'usersService',
     'ticketMetadataService',
-    function($scope, $http, $location, $resource, usersService, ticketMetadataService) {
+    'ticketCrudService',
+    function($scope, $http, $location, $resource, usersService, ticketMetadataService, ticketCrudService) {
 
+      // populate all predefined fields
       usersService.csrList.then(function(res) {
         $scope.csrList = res.data;  
       });
@@ -22,12 +25,13 @@ ticketController
         $scope.areaList = res.data;
       });
 
+      // called when user clicks create button
+      // creates a new ticket based on ticket in scope
       $scope.createTicket = function() {
-      	var newTicket = $resource('/api/tickets');
-      	newTicket.save($scope.ticket);
-  		  // redirect if success 
-  		  // do this only if it succeeds 
-        $location.path('home');
+        ticketCrudService.create($scope.ticket)
+        .then(function() {
+          $location.path('home');  
+        });        
       }
 }]);
 

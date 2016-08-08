@@ -1,5 +1,6 @@
 var ticketModule = angular.module('ticketsapp.ticket', []);
 
+// ticket module master file
 ticketModule.config([
   '$stateProvider',
   '$urlRouterProvider',
