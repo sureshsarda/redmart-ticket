@@ -43,10 +43,10 @@
  - `DONE` Delete a ticket
  - `TODO` Delete and Update a user, also view details of user
  - `TODO` Validation on ticket creation
- - `TODO` Separate ticket controllers in files.
- - `TODO` A comment is being added two times
+ - `DONE` Separate ticket controllers in files.
+ - `DONE` A comment is being added two times
 
 ### Refactoring
- - Figure out a way to save routes in variables such that they can be used a different places wihout the doubt of typos.
+ - `DONE` Figure out a way to save routes in variables such that they can be used a different places wihout the doubt of typos.
 
- - Do something about common variables like the enum values which are getting fetched everytime.
+ - `DONE` Do something about common variables like the enum values which are getting fetched everytime.
