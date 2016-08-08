@@ -19,8 +19,8 @@ var User = mongoose.model('User');
  * 	GET 	/options/type		Get user types
  */
 
-router.route('/options/type').get(function(req, res, next) {
-	res.json(Ticket.schema.path('type').enumValues)
+router.route('/type').get(function(req, res, next) {
+	res.json(User.schema.path('type').enumValues)
 });
 
 router.param('user_id', function(req, res, next, id) {
