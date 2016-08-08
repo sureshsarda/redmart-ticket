@@ -14,3 +14,28 @@ userServicesModule.factory('usersService', [
 
 	}
 ]);
+
+userServicesModule.factory('userCrudService', [
+	'$http', 
+	function($http) {
+	
+		var crud = {}
+
+		crud.create = function(user) {
+			return $http({
+				method: 'POST',
+				url: '/api/users/',
+				data: user
+			})
+		}
+
+		crud.delete = function(id) {
+			var endpoint = '/api/users/' + id;
+			return $http({
+            	method: 'DELETE',
+            	url: endpoint
+          	})
+		}
+		return crud;
+	}
+]);

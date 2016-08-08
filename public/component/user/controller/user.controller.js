@@ -7,7 +7,8 @@ userController
     '$http',
     '$resource',
     'usersService',
-    function($scope, $http, $resource, usersService) {
+    'userCrudService',
+    function($scope, $http, $resource, usersService, userCrudService) {
 
       usersService.userType.then(function(response) {
         $scope.userType = response.data;
@@ -26,32 +27,35 @@ userController
       // TODO show error when a repeat user is added
       $scope.createUser = function() {
         var userObject = JSON.parse(JSON.stringify($scope.user));
-        var user = $resource('/api/users/');
-        user.save(userObject);
+        userCrudService.create(userObject)
+        .success(function() {
+          clear();
+            
+          if ($scope.user.type == 'CSR') {
+            $scope.csrList.push(userObject);
+          }
+          else {
+            $scope.customerList.push(userObject); 
+          }  
+        })
+        .catch(function() {
+          alert('Operation Failed. Try refreshing the page.');
+        });
 
-        clear();
-          
-        if ($scope.user.type == 'CSR') {
-          $scope.csrList.push(userObject);
-        }
-        else {
-          $scope.customerList.push(userObject); 
-        }
+        
       };
 
       $scope.delete = function(id, index, type) {
-          var endpoint = '/api/users/' + id;
-          
-          $http({
-            method: 'DELETE',
-            url: endpoint,
-          })
+          userCrudService.delete(id)
           .then(function(res) {
             if (type == 'CSR')
               $scope.csrList.splice(index, 1);
             else
               $scope.customerList.splice(index, 1);
-          });
+          })
+          .catch(function() {
+            alert('Operation Failed. Try refreshing the page.');
+          })
       }
 
       // clears the fields
