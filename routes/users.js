@@ -102,7 +102,17 @@ router.route('/:user_id')
 	}) 
 
 	.delete(function(req, res, next) {
-		res.send("This feature has not been implemented yet");
+		var user = req.user;
+		var query = User.remove({_id : user._id});
+
+		query.exec(function(err, user) {
+			if (err) {
+				res.send(err);
+			}
+			else {
+				res.json(user);	
+			}
+		});
 	});	
 
 module.exports = router;
