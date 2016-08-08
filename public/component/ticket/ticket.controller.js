@@ -98,24 +98,33 @@ ticketController.controller('TicketController', ['$scope', '$resource', '$http',
 ]);
 
 ticketController
-.controller('TicketCreateController', ['$scope', '$http', '$location', '$resource', 'usersProvider',
-  function($scope, $http, $location, $resource, usersProvider) {
+  .controller('TicketCreateController', [
+    '$scope', 
+    '$http', 
+    '$location', 
+    '$resource', 
+    'usersService',
+    'ticketMetadataService',
+    function($scope, $http, $location, $resource, usersService, ticketMetadataService) {
 
-    $scope.x = usersProvider.userMetaData;
-    // populate fields
-    // needs refactoring
-    // badly neeed to remove these calls from here!
-    $http.get('/api/users/csr').then(function(response) {$scope.csrList = response.data;})
-    $http.get('/api/users/customers').then(function(response) {$scope.customerList = response.data;})
-    $http.get('/api/tickets/options/status').then(function(response) {$scope.statusList = response.data;})
-    $http.get('/api/tickets/options/area').then(function(response) {$scope.areaList = response.data;})
+      usersService.csrList.then(function(res) {
+        $scope.csrList = res.data;  
+      });
 
-    $scope.createTicket = function() {
-    	var newTicket = $resource('/api/tickets');
-    	newTicket.save($scope.ticket);
-		  // redirect if success 
-		  // do this only if it succeeds 
-      $location.path('home');
-    }
+      usersService.customerList.then(function(res) {
+        $scope.customerList = res.data;  
+      });
+
+      ticketMetadataService.area.then(function(res) {
+        $scope.areaList = res.data;
+      });
+
+      $scope.createTicket = function() {
+      	var newTicket = $resource('/api/tickets');
+      	newTicket.save($scope.ticket);
+  		  // redirect if success 
+  		  // do this only if it succeeds 
+        $location.path('home');
+      }
 }]);
 

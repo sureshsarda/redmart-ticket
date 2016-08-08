@@ -3,6 +3,7 @@ var app = angular.module('ticketsapp', [
             'ticketsapp.user',
             'ticketsapp.user.service',
             'ticketsapp.ticket',
+            'ticketsapp.tickets.service',
             'ticketsapp.ticket.controller'
             ]);
 
