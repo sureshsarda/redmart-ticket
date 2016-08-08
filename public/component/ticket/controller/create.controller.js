@@ -8,7 +8,8 @@ ticketController
     '$resource', 
     'usersService',
     'ticketMetadataService',
-    function($scope, $http, $location, $resource, usersService, ticketMetadataService) {
+    'ticketCrudService',
+    function($scope, $http, $location, $resource, usersService, ticketMetadataService, ticketCrudService) {
 
       usersService.csrList.then(function(res) {
         $scope.csrList = res.data;  
@@ -23,11 +24,10 @@ ticketController
       });
 
       $scope.createTicket = function() {
-      	var newTicket = $resource('/api/tickets');
-      	newTicket.save($scope.ticket);
-  		  // redirect if success 
-  		  // do this only if it succeeds 
-        $location.path('home');
+        ticketCrudService.create($scope.ticket)
+        .then(function() {
+          $location.path('home');  
+        });        
       }
 }]);
 
