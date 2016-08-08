@@ -76,7 +76,6 @@ router.route('/:ticket_id')
 			}
 			else {
 				res.json(ticket);	
-				console.log(ticket);
 			}
 		});
 		

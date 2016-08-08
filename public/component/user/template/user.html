@@ -41,6 +41,7 @@
       <div class="list-group-item" ng-repeat="u in customerList">
         <p ng-bind="u.name"></p>
         <p class="text-muted" ng-bind="u.email"></p>
+        <a ng-click="delete(u._id, $index, 'Customer')">Delete</a>
       </div>
     </div>
   </div>
@@ -50,6 +51,7 @@
       <div class="list-group-item" ng-repeat="u in csrList">
         <p ng-bind="u.name"></p>
         <p class="text-muted" ng-bind="u.email"></p>
+        <a ng-click="delete(u._id, $index, 'CSR')">Delete</a>
       </div>
     </div>
   </div>
