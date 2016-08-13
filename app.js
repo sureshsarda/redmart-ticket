@@ -13,7 +13,21 @@ var User = require("./models/User"),
     Ticket = require("./models/Ticket");
 
 // DATABASE RELATED
-mongoose.connect('mongodb://localhost/tickets');
+
+var config = {}
+
+config.mongoUri = {
+    development: 'mongodb://localhost/tickets',
+    test: 'mongodb://localhost/tickets-test'
+}
+mongoose.connect(config.mongoUri[app.settings.env], function(err, res) {
+    if (err) {
+        console.log("Error connecting to database" + err);
+    }
+    else {
+        console.log("Connected to database: " + config.mongoUri[app.settings.env]);
+    }
+});
 // mongoose.connect('mongodb://rma:rma@ds145245.mlab.com:45245/redmart');
 
 
