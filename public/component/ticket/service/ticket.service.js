@@ -52,10 +52,10 @@ ticketService.factory('ticketCrudService', ['$http', function($http) {
 	}
 
 	// fetches list of all tickets
-	crud.getAll = function() {
+	crud.getAll = function(filter) {
 		return $http({
 			method: 'GET',
-			url: '/api/tickets/'
+			url: '/api/tickets?' + getObjectAsUrl(filter)
 		});
 	}
 
@@ -79,6 +79,14 @@ ticketService.factory('ticketCrudService', ['$http', function($http) {
 			data: comment
 		});
 	}
+
+	function getObjectAsUrl(obj) {
+		var str = Object.keys(obj).map(function(key){ 
+  			return encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]); 
+		}).join('&');
+		return str;
+	}
+	
 
 	return crud;
 

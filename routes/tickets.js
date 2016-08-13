@@ -30,8 +30,32 @@ router.param('ticket_id', function(req, res, next, id) {
 
 router.route('/')
 	.get(function(req, res, next) {
-		Ticket.find()
-			.populate(['_createdBy', '_assignedTo', '_customer', 'comments'])
+		var status = req.query.status;
+		var customer = req.query.customer;
+		var assignedTo = req.query.assignedTo;
+		var area = req.query.area;
+
+		var filter = {};
+		if (status) {
+			filter.status = status
+		}
+
+		if (customer) {
+			filter._customer = customer;
+		}
+
+		if (assignedTo) {
+			filter._assignedTo = assignedTo;
+		}
+
+		if (area) {
+			filter.area = area;
+		}
+
+		console.log(filter);
+		
+		Ticket.find(filter)
+			.populate(['_assignedTo', '_customer'])
 			.exec(function(err, bears) {
 				if (err) {
 					res.send(err);
