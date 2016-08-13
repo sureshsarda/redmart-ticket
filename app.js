@@ -1,16 +1,16 @@
-var express = require('express');
-var expressValidator = require('express-validator');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+var express = require('express'),
+    expressValidator = require('express-validator'),
+    path = require('path'),
+    favicon = require('serve-favicon'),
+    logger = require('morgan'),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser'),
+    mongoose   = require('mongoose'),
+    app = express();
 
 
-var app = express();
 
 // DATABASE RELATED
-var mongoose   = require('mongoose');
 mongoose.connect('mongodb://localhost/tickets');
 // mongoose.connect('mongodb://rma:rma@ds145245.mlab.com:45245/redmart');
 
