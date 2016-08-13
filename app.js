@@ -6,20 +6,19 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
     mongoose   = require('mongoose'),
-    app = express();
+    app = express(),
+    router = express.Router();      
 
-
+var User = require("./models/User"),
+    Ticket = require("./models/Ticket");
 
 // DATABASE RELATED
 mongoose.connect('mongodb://localhost/tickets');
 // mongoose.connect('mongodb://rma:rma@ds145245.mlab.com:45245/redmart');
 
 
-// Registering Schemas
-require("./models/User");
-require("./models/Ticket");
-
-// view engine setup
+// -- Application Configuration -----------------------------------------------
+app.set('name', 'Redmart Ticket Tracing');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -32,22 +31,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/templates', express.static(__dirname + '/templates'));
 
+// ROUTES ---------------------------------------------------------------------
 
-
-// ROUTES 
-// The following are all the api related routes.
-var router = express.Router();      
-
-//user
-var users = require('./routes/users');
-router.use('/users', users);
-
-//tickets
-var tickets = require('./routes/tickets');
-router.use('/tickets', tickets);
-app.use('/api', router);
-
-// Frontend related routes
 var routes = require('./routes/index');
 app.use('/', routes);
 
