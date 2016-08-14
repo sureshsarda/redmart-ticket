@@ -14,11 +14,11 @@ ticketController
 
       // populate all predefined fields
       usersService.csrList.then(function(res) {
-        $scope.csrList = res.data;  
+        $scope.csrList = res.data.users;  
       });
 
       usersService.customerList.then(function(res) {
-        $scope.customerList = res.data;  
+        $scope.customerList = res.data.users;  
       });
 
       ticketMetadataService.area.then(function(res) {
