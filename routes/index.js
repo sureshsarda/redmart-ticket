@@ -5,10 +5,24 @@ var router = express.Router();
 var users = require('./users'),
 	tickets = require('./tickets');
 
-router.use('/users', users);
-router.use('/tickets', tickets);
+router.use('/api/users', users);
+router.use('/api/tickets', tickets);
 
-router.use('/api', router);
+router.get('/api', function(req, res, next) {
+	var links = { 
+		
+		list_users : {
+			method: 'GET',
+			url: '/api/users'
+		},
+
+		list_tickets : {
+			method: 'GET',
+			url: '/api/tickets'
+		}
+	}
+	res.json(links);
+});
 
 
 // - Frontend for all requests ------------------------------------------------
