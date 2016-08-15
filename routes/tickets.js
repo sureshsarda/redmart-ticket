@@ -124,12 +124,12 @@ router.route('/')
 				res.status(400).send(err)
 			}
 			else {
-				var body {
-					'ticket' : tickets,
+				var body = {
+					'ticket' : ticket,
 					'links'	 : {
-						'update' : updateTicketLinkObject(tickets),
-						'delete' : deleteTicketLinkObject(tickets),
-						'comment' : commentTicketLinkObject(tickets)
+						'update' : updateTicketLinkObject(ticket),
+						'delete' : deleteTicketLinkObject(ticket),
+						'comment' : commentTicketLinkObject(ticket)
 					}
 				}
 				res.status(201).json(body);

@@ -18,7 +18,7 @@ ticketController
             function reloadData() {
                 ticketCrudService.getAll(filterObject)
                 .then(function(response) {
-                    $scope.tickets = response.data;
+                    $scope.tickets = response.data.tickets;
                 });    
             }
         

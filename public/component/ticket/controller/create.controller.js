@@ -22,7 +22,7 @@ ticketController
       });
 
       ticketMetadataService.area.then(function(res) {
-        $scope.areaList = res.data;
+        $scope.areaList = res.data.area;
       });
 
       // called when user clicks create button

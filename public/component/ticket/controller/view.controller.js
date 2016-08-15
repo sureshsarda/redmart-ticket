@@ -24,18 +24,18 @@ ticketController
       });
 
       ticketMetadataService.area.then(function(res) {
-        $scope.areaList = res.data;
+        $scope.areaList = res.data.area;
       });
       
       ticketMetadataService.status.then(function(res) {
-        $scope.statusList = res.data;
+        $scope.statusList = res.data.status;
       });
 
       // load the ticket by id
       ticketCrudService.get($stateParams.id)
       .then(function(response) {
-        $scope.ticket = response.data;
-        $scope.disabled = ('Closed' == response.data.status);
+        $scope.ticket = response.data.ticket;
+        $scope.disabled = ('Closed' == response.data.ticket.status);
       });
       
       // add a new comment
