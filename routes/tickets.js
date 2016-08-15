@@ -129,7 +129,7 @@ router.route('/')
 					'links'	 : {
 						'update' : updateTicketLinkObject(tickets),
 						'delete' : deleteTicketLinkObject(tickets),
-						'comment' : commentTicketLinkObject(tickets),
+						'comment' : commentTicketLinkObject(tickets)
 					}
 				}
 				res.status(201).json(body);
@@ -138,20 +138,49 @@ router.route('/')
 	});
 
 router.route('/:ticket_id')
+	/**
+	  * Updates a ticket based on it's id
+	  *
+	  * PARAMETERS:
+	  *				ticket id in the url
+	  *				updated ticket object in the body
+	  *
+	  * RETURNS:
+	  *				ticket (the updated ticket object)
+	  *				links (delete, comment)
+	  */	
 	.put(function(req, res, next) {
 		var ticket = req.ticket.toObject();
-		var updatedData = new Ticket(req.body);
+		var updatedticket = new Ticket(req.body);
 
-		var query = Ticket.update({_id : ticket._id}, updatedData );
+		var query = Ticket.update({_id : ticket._id}, updatedticket );
 		query.exec(function(err, ticket) {
 			if (err) {
 				res.send(err);
 			}
 			else {
-				res.json(ticket);
+				var body = {
+					'ticket' : ticket,
+					'links'  : {
+						'delete' : deleteTicketLinkObject(ticket),
+						'comment': commentTicketLinkObject(ticket)  
+					}
+				}
+				res.status(200).json(body);
 			}
 		});
 	})
+
+	/**
+	  * Deletes a ticket based on it's id
+	  *
+	  * PARAMETERS:
+	  *				ticket id for ticket to delete
+	  *
+	  *	RETURNS:
+	  *				the deleted ticket object
+	  * 			links (create, list all)
+	  */
 	.delete(function(req, res, next) {
 		var ticket = req.ticket;
 		var query = Ticket.remove({_id : ticket._id});
@@ -160,18 +189,63 @@ router.route('/:ticket_id')
 				res.send(err);
 			}
 			else {
-				res.json(ticket);	
+				var body = {
+					'ticket' : ticket,
+					'link'	 : {
+						'create' 		: TICKET_LINKS['create'],
+						'list_tickets' 	: TICKET_LINKS['list_tickets']
+					}
+				}
+				res.status(200).json(body);
 			}
 		});
 		
 	})
+
+	/**
+	  * Retrieves a ticket based on it's id
+	  *
+	  * PARAMETERS:
+	  *				ticket id
+	  *
+	  * RETURNS:
+	  *				ticket - the ticket id
+	  *				links - links to delete, update, comment
+	  */
 	.get(function(req, res, next) {
-		res.json(req.ticket);
+		var body = {
+			'ticket'	: req.ticket,
+			'link'		: {
+				'update' : updateTicketLinkObject(req.ticket),
+				'delete' : deleteTicketLinkObject(req.ticket),
+				'comment' : commentTicketLinkObject(req.ticket)
+			}
+		}
+		res.status(200).json(body);
 	});
 
 router.route('/:ticket_id/comment')
+	/**
+	  * Add a comment to given ticket
+	  *
+	  * PARAMETER:
+	  *			ticket id in the url and comment body in message body
+	  *
+	  * RETURN:
+	  *			ticket - the ticket object
+	  *			links - to delete, modify the ticket
+	  */
 	.post(function(req, res, next) {
 		var ticket = req.ticket;
+
+		req.checkBody('description', 'param description is required').notEmpty();
+
+		var error = req.validationErrors();
+		if (error) {
+			res.status(400).json('Invalid Input: ' + util.inspect(error));
+			return;
+		}
+
 		var comment = req.body;
 		comment.dateCreated = Date.now();
 
@@ -181,16 +255,26 @@ router.route('/:ticket_id/comment')
 				res.send(err);
 			}
 			else {
-				res.json(ticket);	
+				var body = {
+					'ticket' : ticket,
+					'link' 	 : {
+						'update' : updateTicketLinkObject(ticket),
+						'delete' : deleteTicketLinkObject(ticket),
+					}
+				}
+				res.status(200).json(body);
 			}
-			
 		});
 	});
 
 
-
 module.exports = router;
 
+/*
+ * Helper methods to get the link object that needs to be sent with a response
+ * The URL for these objects contains the id of the ticket object.
+ * These methods create a object from the ticket and return it.
+ */
 function deleteTicketLinkObject(tickets) {
 	return {
 		'href'		: "/api/tickets/" + tickets._id,
