@@ -7,7 +7,10 @@ var should = chai.should();
 var expect = chai.expect;
 
 var mongoose = require('mongoose');
+var ObjectId = mongoose.Types.ObjectId;
+
 var User = mongoose.model('User');
+var userData = require('./data/users.js');
 
 chai.use(chaiHttp);
 
@@ -17,20 +20,20 @@ describe('Users', function() {
 	User.collection.drop();
 
 	beforeEach(function(done) {
-		var userList = [
-			{"name" : "Kalanithi Maran","email" : "Kalanithi@gmail.com", "type" : "CSR" },
-			{"name" : "Kavery Kalanithi","email" : "Kavery@gmail.com", "type" : "CSR" },
-			{"name" : "Naveen Jindal","email" : "Naveen@gmail.com.com", "type" : "CSR" },
-			{"name" : "Kumar Mangalam Birla","email" : "Kumar@gmail.com.com", "type" : "Customer" },
-			{"name" : "Pawan Munjal","email" : "Pawan@gmail.com.com", "type" : "Customer" },
-			{"name" : "Brijmohan Lall Munjal","email" : "Brijmohan@gmail.com.com", "type" : "Customer" },
-			{"name" : "Sunil Kant Munjal","email" : "Sunil@gmail.com.com", "type" : "Customer" },
-			{"name" : "P R Ramasubrahmaneya Rajha","email" : "aksahy@gmail.com.com", "type" : "Customer" },
-			{"name" : "Shinzo Nakanishi","email" : "Shinzo@gmail.com.com", "type" : "Customer" },
-			{"name" : "Murali K Divi","email" : "Murali@gmail.com.com", "type" : "Customer" }
-		];
+		// var USER_LIST = [
+		// 	{ '_id' : new ObjectId('57b16065c4615a13126438be'), 'name' : 'Ava Chan', 'email' : 'ava@chan.com', 'type' : 'CSR', 'image' : 'https://eliaslealblog.files.wordpress.com/2014/03/user-200.png', 'isActive' : true, '__v' : 0 },
+		// 	{ '_id' : new ObjectId('57b16072c4615a13126438bf'), 'name' : 'Maria Moller', 'email' : 'maria@moller.com', 'type' : 'CSR', 'image' : 'https://eliaslealblog.files.wordpress.com/2014/03/user-200.png', 'isActive' : true, '__v' : 0 },
+		// 	{ '_id' : new ObjectId('57b16103c4615a13126438c0'), 'name' : 'Dale Adams', 'email' : 'dale@adams.com', 'type' : 'CSR', 'image' : 'https://eliaslealblog.files.wordpress.com/2014/03/user-200.png', 'isActive' : true, '__v' : 0 },
+		// 	{ '_id' : new ObjectId('57b1611bc4615a13126438c1'), 'name' : 'Gilbert Woods', 'email' : 'gilbert@woods.com', 'type' : 'Customer', 'image' : 'https://eliaslealblog.files.wordpress.com/2014/03/user-200.png', 'isActive' : true, '__v' : 0 },
+		// 	{ '_id' : new ObjectId('57b16127c4615a13126438c2'), 'name' : 'Dylan Watts', 'email' : 'dylan@watts.com', 'type' : 'Customer', 'image' : 'https://eliaslealblog.files.wordpress.com/2014/03/user-200.png', 'isActive' : true, '__v' : 0 },
+		// 	{ '_id' : new ObjectId('57b16132c4615a13126438c3'), 'name' : 'Judd King', 'email' : 'judd@king.com', 'type' : 'Customer', 'image' : 'https://eliaslealblog.files.wordpress.com/2014/03/user-200.png', 'isActive' : true, '__v' : 0 },
+		// 	{ '_id' : new ObjectId('57b1613fc4615a13126438c4'), 'name' : 'Gabriella Freeman', 'email' : 'gabriella@freeman.com', 'type' : 'Customer', 'image' : 'https://eliaslealblog.files.wordpress.com/2014/03/user-200.png', 'isActive' : true, '__v' : 0 },
+		// 	{ '_id' : new ObjectId('57b1614bc4615a13126438c5'), 'name' : 'Sean Taylor', 'email' : 'sean@taylor.com', 'type' : 'Customer', 'image' : 'https://eliaslealblog.files.wordpress.com/2014/03/user-200.png', 'isActive' : true, '__v' : 0 },
+		// 	{ '_id' : new ObjectId('57b1615cc4615a13126438c6'), 'name' : 'Scott Muray', 'email' : 'scott@murray.com', 'type' : 'Customer', 'image' : 'https://eliaslealblog.files.wordpress.com/2014/03/user-200.png', 'isActive' : true, '__v' : 0 },
+		// 	{ '_id' : new ObjectId('57b1616dc4615a13126438c7'), 'name' : 'Nellie Marshalls', 'email' : 'nellie@marshalls.com', 'type' : 'Customer', 'image' : 'https://eliaslealblog.files.wordpress.com/2014/03/user-200.png', 'isActive' : true, '__v' : 0 }
+		// ]
 		
-		User.collection.insert(userList, function(err) {
+		User.collection.insert(userData.USER_LIST, function(err) {
 			if (err)
 				console.log(err);
 			done();
@@ -166,6 +169,15 @@ describe('Users', function() {
 		.end(function(err, res) {
 			res.should.have.status(400)
 			res.should.be.json;
+			done();
+		})
+	})
+
+	it('GET /api/users/:id :  should not return object for invalid id', function(done) {
+		chai.request(server)
+		.get('/api/users/564bs')
+		.end(function(err, res) {
+			res.should.have.status(400);
 			done();
 		})
 	})

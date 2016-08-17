@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 
 var mongoose = require('mongoose');
+var ObjectId = require('mongoose').Types.ObjectId;
 var User = mongoose.model('User');
 
 
@@ -25,6 +26,9 @@ router.route('/type').get(function(req, res, next) {
 });
 
 router.param('user_id', function(req, res, next, id) {
+	if (!ObjectId.isValid(id)) {
+		res.status(400).json('Object Id is invalid');
+	}
 	var query = User.findById(id);
 	query
 		.exec(function(err, user) {
@@ -52,7 +56,6 @@ router.route('/')
 	  */
 	.get(function(req, res, next) {
 		User.find(function(err, users) {
-			res.links(USER_LINKS);
 			if (err) {
 				res.send(err);
 			}

@@ -7,8 +7,12 @@ var should = chai.should();
 var expect = chai.expect;
 
 var mongoose = require('mongoose');
+var ObjectId = mongoose.Types.ObjectId;
 var User = mongoose.model('User');
 var Ticket = mongoose.model('Ticket');
+
+var userData = require('./data/users.js');
+var ticketData = require('./data/tickets.js');
 
 chai.use(chaiHttp);
 
@@ -45,6 +49,35 @@ describe('TicketsMetaData', function() {
 	})
 });
 
+describe('Tickets', function() {
+
+	Ticket.collection.drop();
+
+	beforeEach(function(done) {
+		Ticket.collection.insert(ticketData.TICKETS_LIST, function(err) {
+			if (err)
+				console.log(err);
+			done();
+		})
+	})
+
+	afterEach(function(done) {
+		Ticket.collection.drop();
+		done();
+	})
+
+	it('GET /api/tickets/ : should get list of all tickets', function(done) {
+		chai.request(server)
+		.get('/api/tickets')
+		.end(function(err, res) {
+			res.should.have.status(200);
+			res.should.be.json;
+			res.body.tickets.should.be.a('array');
+			// res.body.tickets[0].description.should.equal('A test ticket');
+			done();
+		})
+	})
+});
 // describe('Tickets', function() {
 
 // 	User.collection.drop();
