@@ -6,7 +6,7 @@ userServicesModule.factory('usersService', [
 	
 		var promises = {};
 
-		promises.csrList = $http.get('/api/users/csr');
+		promises.csrList = $http.get('/api/users/csrs');
 		promises.customerList = $http.get('/api/users/customers');
 		promises.userType = $http.get('/api/users/type');
 

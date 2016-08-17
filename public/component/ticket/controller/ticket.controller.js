@@ -4,26 +4,44 @@ var ticketController = angular.module('ticketsapp.ticket.controller', []);
 // list the tickets on load
 // it has function to delete the tickets
 ticketController
-  .controller('TicketListController', [
-    '$scope', 
-    '$resource', 
-    '$http',
-    'ticketCrudService',
-    function($scope, $resource, $http, ticketCrudService) {
+    .controller('TicketListController', [
+        '$scope', 
+        '$resource', 
+        '$http',
+        'ticketCrudService',
+        function($scope, $resource, $http, ticketCrudService) {
 
-      // populate the list of all tickets
-      ticketCrudService.getAll()
-      .then(function(response) {
-    		$scope.tickets = response.data;
-    	});
+            $scope.uiFilterObject = {};
+            var filterObject = {};
+            reloadData();
 
-      // delete the ticket
-      $scope.deleteTicket = function(id) {
-        ticketCrudService.delete(id)
-        .then(function(res) {
-         	$location.path('home');
-        });
-      }
+            function reloadData() {
+                ticketCrudService.getAll(filterObject)
+                .then(function(response) {
+                    $scope.tickets = response.data.tickets;
+                });    
+            }
+        
+
+            // delete the ticket
+            $scope.deleteTicket = function(id) {
+                ticketCrudService.delete(id)
+                    .then(function(res) {
+                        $location.path('home');
+                });
+            }
+
+            $scope.setFilter = function(key, value, displayName) {
+                filterObject[key] = value;
+                $scope.uiFilterObject[key] = displayName;
+                reloadData();
+            }
+
+            $scope.unsetFilter = function(key) {
+                filterObject[key] = '';
+                $scope.uiFilterObject[key] = '';
+                reloadData();
+            }
     }
 ]);
 

@@ -14,15 +14,15 @@ ticketController
 
       // populate all predefined fields
       usersService.csrList.then(function(res) {
-        $scope.csrList = res.data;  
+        $scope.csrList = res.data.users;  
       });
 
       usersService.customerList.then(function(res) {
-        $scope.customerList = res.data;  
+        $scope.customerList = res.data.users;  
       });
 
       ticketMetadataService.area.then(function(res) {
-        $scope.areaList = res.data;
+        $scope.areaList = res.data.area;
       });
 
       // called when user clicks create button

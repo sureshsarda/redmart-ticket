@@ -4,10 +4,46 @@
 		<thead>
 		<tr>
 			<th></th>
-			<th>Description</th>
-			<th>Customer</th>
-			<th>Assigned To</th>
-			<th>Area</th>
+			<th>
+				<span ng-if="uiFilterObject.status">
+					<a title="Remove filter" ng-click="unsetFilter('status')">
+						<span ng-bind="uiFilterObject.status"></span>
+						<span class="glyphicon glyphicon-remove"></span>
+					</a>
+					<br/>
+				</span>
+				Description 
+			</th>
+			<th>
+				<span ng-if="uiFilterObject.customer">
+					<a title="Remove filter" ng-click="unsetFilter('customer')">
+						<span ng-bind="uiFilterObject.customer"></span>
+						<span class="glyphicon glyphicon-remove"></span>
+					</a>
+					<br/>	
+				</span>
+				Customer
+			</th>
+			<th>
+				<span ng-if="uiFilterObject.assignedTo">
+					<a title="Remove filter" ng-click="unsetFilter('assignedTo')">
+						<span ng-bind="uiFilterObject.assignedTo"></span>
+						<span class="glyphicon glyphicon-remove"></span>
+					</a>
+					<br/>
+				</span>
+				Assigned To
+			</th>
+			<th>
+				<span ng-if="uiFilterObject.area">
+					<a title="Remove filter" ng-click="unsetFilter('area')">
+						<span ng-bind="uiFilterObject.area"></span>
+						<span class="glyphicon glyphicon-remove"></span>
+					</a>
+					<br/>
+				</span>
+				Area
+			</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -25,13 +61,27 @@
 				<span class="badge" title="{{ticket.comments.length}} comments">{{ticket.comments.length}}</span>
 				<span ng-bind="ticket.description | limitTo: 35"></span>
 				<span ng-bind="ticket.description.length > 35 ? '...' : ''"></span>
-				<span class="label label-warning" ng-if="ticket.status == 'New'">New</span>
-				<span class="label label-primary" ng-if="ticket.status == 'Open'">Open</span>
-				<span class="label label-success" ng-if="ticket.status == 'Closed'">Closed</span>
+				<a ng-click="setFilter('status', ticket.status, ticket.status)" title="Apply Filter">
+					<span class="label label-warning" ng-if="ticket.status == 'New'">New</span>
+					<span class="label label-primary" ng-if="ticket.status == 'Open'">Open</span>
+					<span class="label label-success" ng-if="ticket.status == 'Closed'">Closed</span>
+				</a>
 			</td>		
-			<td><span ng-bind="ticket._customer.name"></span></td>
-			<td><span ng-bind="ticket._assignedTo.name"></span></td>
-			<td><span ng-bind="ticket.area"></span></td>
+			<td>
+				<a ng-click="setFilter('customer', ticket._customer._id, ticket._customer.name)">
+					<span ng-bind="ticket._customer.name"></span>
+				</a>
+			</td>
+			<td>
+				<a ng-click="setFilter('assignedTo', ticket._assignedTo._id, ticket._assignedTo.name)">
+					<span ng-bind="ticket._assignedTo.name"></span>
+				</a>
+			</td>
+			<td>
+				<a ng-click="setFilter('area', ticket.area, ticket.area)">
+					<span ng-bind="ticket.area"></span>
+				</a>
+			</td>
 		</tr>
 		</tbody>
 	</table>

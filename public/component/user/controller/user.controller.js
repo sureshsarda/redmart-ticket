@@ -13,15 +13,15 @@ userController
 
       // populate predefined fields
       usersService.userType.then(function(response) {
-        $scope.userType = response.data;
+        $scope.userType = response.data.types;
       });
 
       usersService.csrList.then(function(response) {
-        $scope.csrList = response.data;
+        $scope.csrList = response.data.users;
       });
 
       usersService.customerList.then(function(response) {
-        $scope.customerList = response.data;
+        $scope.customerList = response.data.users;
       });
 
       

@@ -1,30 +1,45 @@
-var express = require('express');
-var expressValidator = require('express-validator');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+var express = require('express'),
+    expressValidator = require('express-validator'),
+    path = require('path'),
+    favicon = require('serve-favicon'),
+    logger = require('morgan'),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser'),
+    mongoose   = require('mongoose'),
+    app = express(),
+    router = express.Router();      
 
+var User = require("./models/User"),
+    Ticket = require("./models/Ticket");
 
-var app = express();
+// DATABASE RELATED
+
+var config = {}
 
 // DATABASE RELATED
 var mongoose   = require('mongoose');
-// mongoose.connect('mongodb://localhost/tickets');
 mongoose.connect('mongodb://rma:rma@ds145245.mlab.com:45245/redmart');
 
+// config.mongoUri = {
+//     development: 'mongodb://localhost/tickets',
+//     test: 'mongodb://localhost/tickets-test'
+// }
+// mongoose.connect(config.mongoUri[app.settings.env], function(err, res) {
+//     if (err) {
+//         console.log("Error connecting to database" + err);
+//     }
+//     else {
+//         console.log("Connected to database: " + config.mongoUri[app.settings.env]);
+//     }
+// });
 
-// Registering Schemas
-require("./models/User");
-require("./models/Ticket");
 
-// view engine setup
+// -- Application Configuration -----------------------------------------------
+app.set('name', 'Redmart Ticket Tracing');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(expressValidator());
@@ -33,22 +48,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/templates', express.static(__dirname + '/templates'));
 
+// ROUTES ---------------------------------------------------------------------
 
-
-// ROUTES 
-// The following are all the api related routes.
-var router = express.Router();      
-
-//user
-var users = require('./routes/users');
-router.use('/users', users);
-
-//tickets
-var tickets = require('./routes/tickets');
-router.use('/tickets', tickets);
-app.use('/api', router);
-
-// Frontend related routes
 var routes = require('./routes/index');
 app.use('/', routes);
 
