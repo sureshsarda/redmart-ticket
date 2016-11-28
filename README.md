@@ -59,3 +59,6 @@ Users currently can be of 2 types - Customer and Customer Service Repos.
  - `DONE` Figure out a way to save routes in variables such that they can be used a different places wihout the doubt of typos.
 
  - `DONE` Do something about common variables like the enum values which are getting fetched everytime.	
+
+## Contact
+Suresh Sarda: (sureshssarda[at]gmail[dot]com)
