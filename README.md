@@ -7,6 +7,7 @@ This application provides basic functionality like creating new ticket or users 
 Users currently can be of 2 types - Customer and Customer Service Repos.
 
 (This is just a POC hence I keep it improving it while I learn new things.)
+
 ---
 
 ## REST Endpoints
