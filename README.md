@@ -1,5 +1,13 @@
 # Redmart Ticket Tracker
 ---
+Redmart Ticket Tracker is a as the name suggests a ticket tracking application. Unlike a fullblown application like JIRA or Redmine, this is just a POC on ticket tracking and MEAN stack.
+
+This application provides basic functionality like creating new ticket or users and modifying existing ones. It also provides provision to add comments on tickets. Items can be filtered on the basis of the users or their statuses. Items can also be deleted. Everything is provided as REST service by node and express which is consumed by Angular.
+
+Users currently can be of 2 types - Customer and Customer Service Repos.
+
+(This is just a POC hence I keep it improving it while I learn new things.)
+---
 
 ## REST Endpoints
 
@@ -49,4 +57,4 @@
 ### Refactoring
  - `DONE` Figure out a way to save routes in variables such that they can be used a different places wihout the doubt of typos.
 
- - `DONE` Do something about common variables like the enum values which are getting fetched everytime.
+ - `DONE` Do something about common variables like the enum values which are getting fetched everytime.	
